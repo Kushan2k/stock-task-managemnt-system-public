@@ -1,2 +1,2 @@
-./controllers/*.php
+./controllers
 ./stocks.sql
