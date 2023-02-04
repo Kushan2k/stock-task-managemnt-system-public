@@ -8,6 +8,51 @@ if($_SERVER['REQUEST_METHOD']=='GET'){
   header("Location:../index.php");
 }
 
+if(isset($_POST['update-servers'])){
+  $name = htmlspecialchars($_POST['name']);
+  $city = htmlspecialchars($_POST['city']);
+
+  if(empty($name) || empty($city)){
+    $_SESSION['error'] = 'name and city is required!';
+    header("Location:{$_SERVER['HTTP_REFERER']}");
+    return;
+  }
+  $country=empty($_POST['country'])?'-':$_POST['country'];
+  $ipmiip= empty($_POST['ipmiip'])?'-':$_POST['ipmiip'];
+  $seriel= empty($_POST['seriel'])?'-':$_POST['seriel'];
+  $rackunit= empty($_POST['ru'])?'-':$_POST['ru'];
+  $facilityname= empty($_POST['fn'])?'-':$_POST['fn'];
+  $racknumber= empty($_POST['rn'])?'-':$_POST['rn'];
+  $cpu= empty($_POST['cpu'])?'-':$_POST['cpu'];
+  $memory= empty($_POST['mem'])?'-':$_POST['mem'];
+  $diskmodel= empty($_POST['dm'])?'':$_POST['dm'];
+  $nic= empty($_POST['nic'])?'-':$_POST['nic'];
+  $serverip= empty($_POST['serverip'])?'-':$_POST['serverip'];
+  $serveruser= empty($_POST['serveruser'])?'-':$_POST['serveruser'];
+  $serverpass= empty($_POST['serverpass'])?'-':$_POST['serverpass'];
+  $serverport= empty($_POST['serverport'])?'-':$_POST['serverport'];
+  $ipmiport= empty($_POST['ipmiport'])?'-':$_POST['ipmiport'];
+  $ipmiuser= empty($_POST['ipmiuser'])?'-':$_POST['ipmiuser'];
+  $ipmipass= empty($_POST['ipmipass'])?'-':$_POST['ipmipass'];
+
+  $serverid = $_POST['serverid'];
+
+  $sql = "UPDATE servers SET name=?,city=?,country=?,ipmiip=?,seriel=?,rackunit=?,facilityname=?,racknumber=?,cpu=?,memory=?,diskmodel=?,nic=?,serverip=?,serveruser=?,serverpass=?,serverport=?,ipmiport=?,ipmiuser=?,ipmipass=? WHERE id=?";
+
+  $stm = $conn->prepare($sql);
+
+  $stm->bind_param('sssssssssssssssssssi',$name,$city,$country, $ipmiip, $seriel, $rackunit, $facilityname, $racknumber, $cpu, $memory, $diskmodel, $nic, $serverip, $serveruser, $serverpass, $serverport, $ipmiport, $ipmiuser, $ipmipass,$serverid );
+
+  if($stm->execute()){
+    $_SESSION['msg'] = 'server updated!';
+    header("Location:../pages/servers.php");
+  }else{
+    $_SESSION['error'] = 'server update failed!';
+    header("Location:{$_SERVER['HTTP_REFERER']}");
+  }
+
+}
+
 
 if(isset($_POST['add-servers'])){
   $name = htmlspecialchars($_POST['name']);

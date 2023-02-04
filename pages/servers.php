@@ -138,13 +138,13 @@ if(!isset($_COOKIE['login']) && !isset($_SESSION['username'])){
               </div>
               <p class="text-center display-4">Servers</p>
               <span class="counter pull-right"></span>
-              <table class="table table-hover table-bordered results">
+              <table class="table table-hover table-bordered results mx-auto">
                 <thead>
                   <tr>
                     <th class="col ">ServerName</th>
                     <th class="col ">ServerIP</th>
                     <th class="col ">ServerUser</th>
-                    <th class="col">ServerPort</th>
+                    <th class="col d-none d-md-flex'">ServerPort</th>
                     <th class="col"></th>
                     <th class="col "></th>
                   </tr>
@@ -167,12 +167,12 @@ if(!isset($_COOKIE['login']) && !isset($_SESSION['username'])){
                          <td><?= ucfirst($row['name'])?></td>
                          <td><?= ucfirst($row['serverip'])?></td>
                          <td><?= ucfirst($row['serveruser'])?></td>
-                         <td><?= ucfirst($row['serverport'])?></td>
+                         <td class='d-none d-md-flex'><?= ucfirst($row['serverport'])?></td>
                          <td>
                             <button class="text-black-50 w-100 fa-solid fa-chevrons-down btn btn-sm btn-info  border-0" data-toggle="collapse" href="#collapseExample<?= $row['id']?>" role="button" aria-expanded="false" aria-controls="collapseExample<?= $row['id']?>"></button>
                          </td>
                          <td class='d-flex'>
-                          <button  class="btn btn-sm btn-success">Edit</button>
+                          <a href='./editserver.php?server_id=<?= $row['id']?>'class="btn mr-1 btn-sm btn-success">Edit</a>
                           <button data-toggle='modal' data-target='#deleteServerModel' data-server='<?= $row['id']?>' class="btn btn-sm btn-danger delete-btn">Delete</button>
                          </td>
                           
