@@ -414,7 +414,6 @@ if(!isset($_COOKIE['login']) && !isset($_SESSION['username'])){
 
     <script>
       document.addEventListener("DOMContentLoaded",()=>{
-        console.log('loaded')
         let delBtns=document.querySelectorAll('.fa-trash');
         delBtns.forEach(btn=>{
           btn.addEventListener('click',(e)=>{

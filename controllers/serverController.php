@@ -68,10 +68,6 @@ if(isset($_POST['add-servers'])){
     return;
   }
 
-  $_SESSION['error'] = 'mac address saving failed!';
-  header("Location:{$_SERVER['HTTP_REFERER']}");
-  return;
-
   // echo $conn->error;
 
  
@@ -102,4 +98,17 @@ if(isset($_POST['add-servers'])){
   // }
 
 
+}
+
+if(isset($_POST['delete-server'])){
+  $serverid = $_POST['serverid'];
+
+  $sql = "DELETE FROM servers WHERE id={$serverid}";
+  if($conn->query($sql)==TRUE){
+    $_SESSION['msg'] = 'server delete!';
+    header("Location:{$_SERVER['HTTP_REFERER']}");
+  }else{
+    $_SESSION['error'] = 'server delete failed!';
+    header("Location:{$_SERVER['HTTP_REFERER']}");
+  }
 }

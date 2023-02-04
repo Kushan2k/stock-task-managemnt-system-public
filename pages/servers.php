@@ -140,12 +140,14 @@ if(!isset($_COOKIE['login']) && !isset($_SESSION['username'])){
               <span class="counter pull-right"></span>
               <table class="table table-hover table-bordered results">
                 <thead>
-                  <!-- <tr>
-                    <th class="col-md-3 ">Name</th>
-                    <th class="col-md-3 ">City</th>
-                    <th class="col-md-3 ">Country</th>
-                    <th class="col-md-3 ">Email</th>
-                  </tr> -->
+                  <tr>
+                    <th class="col ">ServerName</th>
+                    <th class="col ">ServerIP</th>
+                    <th class="col ">ServerUser</th>
+                    <th class="col">ServerPort</th>
+                    <th class="col"></th>
+                    <th class="col "></th>
+                  </tr>
                   <tr class="warning no-result">
                     <td colspan="4"><i class="fa fa-warning"></i> No result</td>
                   </tr>
@@ -161,11 +163,22 @@ if(!isset($_COOKIE['login']) && !isset($_SESSION['username'])){
                     if($res->num_rows>0){
 
                       while($row=$res->fetch_assoc()){?>
-                        <tr class='w-100'>
-                          <td>
-                            <a class="text-black-50" data-toggle="collapse" href="#collapseExample<?= $row['id']?>" role="button" aria-expanded="false" aria-controls="collapseExample<?= $row['id']?>">
-                            <?= ucfirst($row['name']) ?>/<?= ucfirst($row['city']) ?>/<?= ucfirst($row['country']) ?>
-                            </a>
+                        <tr  >
+                         <td><?= ucfirst($row['name'])?></td>
+                         <td><?= ucfirst($row['serverip'])?></td>
+                         <td><?= ucfirst($row['serveruser'])?></td>
+                         <td><?= ucfirst($row['serverport'])?></td>
+                         <td>
+                            <button class="text-black-50 w-100 fa-solid fa-chevrons-down btn btn-sm btn-info  border-0" data-toggle="collapse" href="#collapseExample<?= $row['id']?>" role="button" aria-expanded="false" aria-controls="collapseExample<?= $row['id']?>"></button>
+                         </td>
+                         <td class='d-flex'>
+                          <button  class="btn btn-sm btn-success">Edit</button>
+                          <button data-toggle='modal' data-target='#deleteServerModel' data-server='<?= $row['id']?>' class="btn btn-sm btn-danger delete-btn">Delete</button>
+                         </td>
+                          
+                        </tr>
+                        <tr class='bg-light'>
+                           <td colspan='6'>
                             <div class="collapse" id="collapseExample<?= $row['id']?>">
                               <div class="card card-body">
 
@@ -201,7 +214,6 @@ if(!isset($_COOKIE['login']) && !isset($_SESSION['username'])){
                               </div>
                             </div>
                           </td>
-                          
                         </tr>
                       <?php }
 
@@ -458,7 +470,38 @@ if(!isset($_COOKIE['login']) && !isset($_SESSION['username'])){
             </div>
           </div>
         </div>
+        
 
+        <!-- delete server model  -->
+        <div class="modal fade" id="deleteServerModel" tabindex="6" aria-labelledby="deleteServerModelLabel" aria-hidden="true">
+
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteServerModelLabel">Delete Server</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p class='text-danger' >server will be deleted and this is a permenent action and can't be undone later.</p>
+                <form action="../controllers/serverController.php" method='POST' >
+                  
+                <input type='hidden' name='serverid' id='server_id' value='id'/>
+                  
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    
+                      <button type="submit" name='delete-server' class="btn btn-danger">Delete</button>
+                    
+                  </div>
+                </form>
+                  
+                
+              </div>
+            </div>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -476,6 +519,13 @@ if(!isset($_COOKIE['login']) && !isset($_SESSION['username'])){
       document.addEventListener("DOMContentLoaded",()=>{
         let addmac=document.querySelector('#addmac')
         let macbox=document.querySelector('.mac-box')
+
+        let delBtns=document.querySelectorAll('.delete-btn');
+        delBtns.forEach(btn=>{
+          btn.addEventListener('click',(e)=>{
+            document.getElementById("server_id").value=e.target.dataset.server
+          })
+        })
 
         addmac.addEventListener("click",(e)=>{
 
