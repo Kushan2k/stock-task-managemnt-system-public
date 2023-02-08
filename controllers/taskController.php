@@ -26,10 +26,29 @@ if(isset($_POST['add-task'])){
   $sql = "INSERT INTO task(title,followup,due_date,file_url,user_id) VALUES(?,?,?,?,?)";
   $stm = $conn->prepare($sql);
 
+  if($file['size']>0){
+    // echo 'has file';
+    if(move_uploaded_file($file['tmp_name'],$filepath)){
+      $userid = $_COOKIE['token'] - 678;
+      $stm->bind_param("ssssi", $title, $followup, $duedate, $filepath,$userid);
+      if($stm->execute()){
+        $_SESSION['msg'] = 'task added';
+        header("Location:{$_SERVER['HTTP_REFERER']}");
+      }else{
+        unlink($filepath);
+        $_SESSION['error'] = 'task added';
+        header("Location:{$_SERVER['HTTP_REFERER']}");
+      }
+    }else{
+      $_SESSION['error'] = 'file upload failed!';
+      header("Location:{$_SERVER['HTTP_REFERER']}");
+    }
 
-  if(move_uploaded_file($file['tmp_name'],$filepath)){
+  }else{
+    // echo 'no file';
     $userid = $_COOKIE['token'] - 678;
-    $stm->bind_param("ssssi", $title, $followup, $duedate, $filepath,$userid);
+    $file="no";
+    $stm->bind_param("ssssi", $title, $followup, $duedate,$file,$userid);
     if($stm->execute()){
       $_SESSION['msg'] = 'task added';
       header("Location:{$_SERVER['HTTP_REFERER']}");
@@ -38,10 +57,10 @@ if(isset($_POST['add-task'])){
       $_SESSION['error'] = 'task added';
       header("Location:{$_SERVER['HTTP_REFERER']}");
     }
-  }else{
-    $_SESSION['error'] = 'file upload failed!';
-    header("Location:{$_SERVER['HTTP_REFERER']}");
   }
+
+
+  
 
 
 }

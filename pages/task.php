@@ -167,7 +167,14 @@ if(!isset($_COOKIE['login']) && !isset($_SESSION['username'])){
                           <td><?= ucfirst($row['title'])?></td>
                           <td class='d-none d-md-flex'><?= ucfirst($row['followup']) ?></td>
                           <td><?= $row['due_date'] ?></td>
-                          <td><a href='<?= $row['file_url'] ?>' download>Download</a></td>
+                          <td>
+                            <?php 
+                            if($row['file_url']!='no'){?>
+                              <a href='<?= $row['file_url'] ?>' download>Download</a>
+                            <?php } else {?>
+                              <a href='#' class='text-danger' >No File</a>
+                        <?php }?>
+                          </td>
                           <td><a href='./comments.php?task_id=<?= $row['id'] ?>' >Comments</a></td>
                           <?php 
                           if($row['user_id']==$_COOKIE['token']-678){?>
@@ -337,16 +344,16 @@ if(!isset($_COOKIE['login']) && !isset($_SESSION['username'])){
 
                   <div class="form-group">
                     <label class=" form-label">Title</label>
-                    <input class="form-control" name='title' type="text"/>
+                    <input class="form-control" required name='title' type="text"/>
                   </div>
                   <div class="form-group">
                     <label class="form-label">Follow Up</label>
-                    <textarea class='form-control' name='followup'>
+                    <textarea class='form-control' required name='followup'>
                     </textarea>
                   </div>
                   <div class="form-group">
                     <label class="form-label">Due Date</label>
-                    <input type='date' class=' form-control ' name='date' />
+                    <input type='date' class=' form-control ' required name='date' />
                   </div>
                   <div class="form-group">
                     <label class="form-label">File</label>
