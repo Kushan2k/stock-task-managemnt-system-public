@@ -134,10 +134,23 @@ if(!isset($_COOKIE['login']) && !isset($_SESSION['username'])){
           <div class="row">
             <div class="col-12">
               <div class="form-group pull-right">
+                  
                   <input type="text" class="search form-control" placeholder="What you looking for?">
               </div>
               <p class="text-center display-4">Servers</p>
-              <span class="counter pull-right"></span>
+
+              <div class="container">
+                <div class="row">
+                  <div class="col-12 d-flex flex-row justify-content-end ">
+                    <!-- <input type='button' data-toggle='modal' data-target='#importModal' class="mr-2  btn btn-info" value='Import From CSV' > -->
+                    
+                    <form action="../controllers/export.php" method="POST" class="my-2">
+                      <input type="submit" name='export' value="Export to Excel" class="btn btn-sm btn-dark">
+                    </form>
+                  </div>
+                </div>
+              </div>
+
               <table class="table table-hover table-bordered results mx-auto">
                 <thead>
                   <tr>
@@ -231,6 +244,33 @@ if(!isset($_COOKIE['login']) && !isset($_SESSION['username'])){
                 </tbody>
               </table>
             </div>
+          </div>
+        </div>
+
+        <!-- import Modal -->
+        <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <form action='../controllers/import.php' method='POST' class='p-0 m-0' >
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="importModalLabel">Import From the Excel</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class='model-body p-3'>
+                  <label class='form-label'>CSV File</lable>
+                  <input type='file' required name='csv' accept='.csv.' class='form-control' />
+                </div>
+                
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  
+                    <button type="submit" name='import' class="btn btn-primary">Import</button>
+                  
+                </div>
+              </div>
+            </form>
           </div>
         </div>
         
